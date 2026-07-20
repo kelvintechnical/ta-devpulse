@@ -1,6 +1,8 @@
-## .NET
-bin/
-obj/
+# DevPulse repo root
+
+## .NET build
+**/bin/
+**/obj/
 *.user
 *.suo
 *.userosscache
@@ -9,7 +11,7 @@ obj/
 *.DotSettings.user
 
 ## Secrets / local
-appsettings.*.local.json
+**/appsettings.*.local.json
 .env
 .env.*
 
@@ -21,5 +23,28 @@ Thumbs.db
 *~
 
 ## Publish output
-publish/
-out/
+**/publish/
+**/out/
+
+## Facilitator / teaching (local only — not for students)
+facilitator/
+*.pptx
+*.ppt
+*.pptm
+
+## Legacy paths (if anything reappears)
+dev_pulse_slide_one/
+DevPulse/dev_pulse_slide_one/
+decks/
+DevPulse/decks/
+screenshots/Slide_*/
+DevPulse/screenshots/Slide_*/
+ta-flyer-*.png
+create-rsvp-form.gs
+devpulse.txt
+/index.html
+DevPulse/index.html
+pdf-preview*.png
+DevPulse/pdf-preview*.png
+"# DevPulse Dashboard Course.pdf"
+DevPulse/"# DevPulse Dashboard Course.pdf"

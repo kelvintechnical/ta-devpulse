@@ -1,28 +1,209 @@
-# DevPulse — Build Guide (you type this)
+# DevPulse
 
-**Tech Affiliates lab · ASP.NET Core Razor Pages · .NET 8 · C#**
+**Live multi-API developer dashboard in ASP.NET Core** · Built in public · Aimed at mid-level .NET
 
-This README is the lab. **You** create the files and type the code.  
-Do **not** ask an AI to “just finish the app” — that skips the learning.
+> One-liner for LinkedIn / resume (target when Phase 2 ships):  
+> *Built a production-minded ASP.NET Core dashboard that aggregates live developer signals via typed HttpClient services, caching, per-source failure isolation, EF Core prefs, auth, automated tests, and Azure CI/CD.*
 
-Teaching notes for slides live in [`decks/`](decks/). Convert those to PowerPoint **after** you finish a full local run.
+**Live demo:** `_your-azure-url-here_`  
+**Target roles:** Mid-level .NET / ASP.NET Core · Backend (C#) · Full-stack (.NET + Razor)  
+**Stack (target):** ASP.NET Core Razor Pages · .NET 8 · C# · EF Core · Identity/OAuth · Azure App Service · GitHub Actions  
+**v1 lab rules:** Beginner-readable · Services separated from UI · Public APIs first (no keys required for the live build)
 
 ---
 
-## What you will build
+## Current status (mid-tier build)
 
-A dashboard with five cards:
+This repo is a **mid-level portfolio project in progress** — not a toy todo app. The end state is interview-credible ASP.NET Core: typed services, resilience, caching, EF Core, auth, tests, and Azure CI/CD (see Phases 2–3 below).
 
-1. Weather (Open-Meteo)  
-2. Hacker News (top 5)  
-3. GitHub Trending (last week, by stars)  
-4. Crypto (CoinGecko, auto-refresh)  
-5. Daily Challenge (local list + button)
+| Layer | Status | Notes |
+|---|---|---|
+| Razor Pages shell + dark UI | **Done** | Hero + five card shells; `wwwroot/css/site.css` theme + grid + card look |
+| Teaching / slide notes | **Local (facilitator)** | Slide decks & notes are gitignored — not in the student repo |
+| Live API cards (Weather → Challenge) | **Next** | Step 2 onward — typed `HttpClient`, DI, per-card errors |
+| Mid-level extras (cache, EF, auth, tests, CI) | Planned | Phase 2–3 after v1 ships |
 
-**Rules:** no database, no API keys, beginner-readable C#, services separate from the page UI.  
+**Overall progress:** ~**35–40%** of the mid-tier product (UI shell complete; zero live APIs yet).  
+**Slide One deck (skeleton + CSS):** ~**95%** done.
+
+### Repo layout
+
+```text
+DevPulse/                 # git root
+  README.md               # this student lab guide
+  DevPulse/               # ASP.NET Core Razor Pages app
+    Pages/
+    wwwroot/
+    Program.cs
+    screenshots/          # optional student checkpoint shots
+  facilitator/            # LOCAL ONLY (gitignored) — slides, notes, marketing
+```
+
+### Session — 2026-07-20 (today)
+
+Shipped the **dashboard skeleton** end-to-end:
+
+- Replaced the Welcome page with `Pages/Index.cshtml` — Razor directives (`@page`, `@model`, `@{ }`), hero, and five placeholder cards (`weather`, `hn`, `github`, `crypto`, `challenge`)
+- Clarified comment territories: `//` inside C# blocks vs `<!-- -->` in markup
+- Rebuilt `wwwroot/css/site.css` from a clean base: dark `body`, `.hero` / `.tagline`, `.card-grid` (`display: grid`, columns, `gap`, `padding`, `max-width`, centered with `margin: 0 auto 3rem`)
+- Taught responsive `auto-fit` / `minmax`, then switched to `repeat(5, 1fr)` for the lab projector layout
+- Styled `.card` panels (background, olive border, radius, min-height) plus `.card h2`, `.muted`, `.error`, list, and link rules ready for API data
+- Facilitator slide notes + screenshots kept local (gitignored) so the student repo stays focused on the app
+
+**Next session:** wire **Weather** first (Step 2 — `HttpClient` + model + service + DI).
+
+---
+
+## Why this project (hiring signal)
+
+| Mid-level signal | How DevPulse shows it |
+|---|---|
+| Real backend integration | Typed `HttpClient` services → JSON → models → Razor UI across multiple APIs |
+| Clean architecture | Services + models + pages; DI in `Program.cs`; page stays thin |
+| Async / concurrency | `async`/`await`, `Task.WhenAll` for parallel HN fetches |
+| Resilience | Per-card failures, timeouts, retries/backoff — one dead API never kills the page |
+| Caching & rate limits | TTL cache so refreshes don’t hammer upstream APIs |
+| Persistence | EF Core for prefs / favorites / challenge history (migrations included) |
+| Auth | Sign-in (Identity or GitHub OAuth) for a personalized dashboard |
+| Quality bar | Unit + integration tests; health checks; structured logging |
+| Ship mentality | Azure deploy + GitHub Actions CI (build → test → deploy) |
+
+---
+
+## What it does
+
+Five cards on one dashboard:
+
+1. **Weather** — Open-Meteo (HTTP + JSON parse)
+2. **Hacker News** — top 5 via parallel requests (`Task.WhenAll`)
+3. **GitHub Trending** — last week, sorted by stars (User-Agent + query design)
+4. **Crypto** — CoinGecko BTC/ETH with auto-refresh
+5. **Daily Challenge** — local list + Razor Pages form handler (no API)
+
+```text
+Browser → Index (Razor Page)
+            → Weather / HN / GitHub / Crypto / Challenge services
+                 → public APIs or local list
+                      → (mid-level) cache · DB · auth · health · CI
+```
+
+---
+
+## Screenshots
+
+| Skeleton | Weather | Full board (shipped) |
+|---|---|---|
+| *(add `screenshots/01-skeleton.png` after your run)* | `screenshots/02-weather.png` | `screenshots/07-shipped.png` |
+
+Optional: save your own checkpoint screenshots under `screenshots/` as you build (do not commit facilitator slide decks).
+
+---
+
+## Run locally
+
+From the **repo root**:
+
+```bash
+cd DevPulse
+dotnet run
+```
+
+Open the localhost URL printed in the terminal (.NET 8 SDK required).
+
+---
+
+## Roadmap — junior v1 → mid-level
+
+Build in this order. **v1** is the live lab (shippable demo). **Mid-level** is what makes the same app interview-credible for mid roles.
+
+### Phase 1 — Ship v1 (lab / junior bar)
+
+- [x] Dashboard skeleton: hero + five cards + dark CSS (`Index.cshtml` + `site.css`) — **2026-07-20**
+- [x] Facilitator Slide One notes kept local (gitignored) — **2026-07-20**
+- [ ] All five cards working (success **or** clear error — never blank)
+- [ ] `IHttpClientFactory` / `AddHttpClient<T>` with ~10s timeouts
+- [ ] Services separated from `Index.cshtml.cs`
+- [ ] Teaching comments stripped from public UI files
+- [ ] Deployed to Azure App Service; live URL filled in above
+- [ ] Screenshots linked for Weather → shipped board
+
+### Phase 2 — Must-haves for mid-level
+
+1. **API integration done properly**
+   - [ ] Typed models (not raw JSON blobs in the page)
+   - [ ] Timeouts, retries with backoff, graceful per-card failure
+   - [ ] Config + secrets for any keys (never hardcoded)
+
+2. **Caching & performance**
+   - [ ] In-memory (or distributed) cache with clear TTLs  
+     (e.g. weather 10m · HN 5m · crypto 1m)
+   - [ ] Document why those TTLs exist (cost / rate limits / freshness)
+
+3. **Architecture past one page**
+   - [ ] One service per API (`IWeatherService`, etc.)
+   - [ ] Options pattern for config
+   - [ ] Shared result type (`CardResult<T>` / `ApiResult<T>`)
+
+4. **Resilience & observability**
+   - [ ] Per-card error UI (“GitHub unavailable”)
+   - [ ] Structured logging on failures
+   - [ ] Health checks (`/health`)
+
+5. **Data layer**
+   - [ ] EF Core + SQL (SQLite OK; Postgres/Azure SQL stronger)
+   - [ ] One real persisted feature (favorites, prefs, or challenge history)
+   - [ ] Migrations checked in
+
+6. **Auth**
+   - [ ] Sign-in (ASP.NET Identity or GitHub OAuth)
+   - [ ] At least one personalized or protected surface
+
+7. **Tests**
+   - [ ] Unit tests for services (mock `HttpMessageHandler`)
+   - [ ] A few integration tests for pages or endpoints
+
+8. **CI/CD + deploy**
+   - [ ] GitHub Actions: build + test
+   - [ ] Deploy pipeline to Azure
+   - [ ] README: architecture, env vars, how to run
+
+### Phase 3 — Strong upgrades (pick 2–3)
+
+- [ ] Background refresh (`IHostedService` / Hangfire)
+- [ ] Polly resilience policies
+- [ ] Docker (+ compose for local DB)
+- [ ] OpenAPI / Swagger for any JSON endpoints
+- [ ] Feature flags or config toggles
+- [ ] Partial crypto update (no full-page meta-refresh)
+- [ ] Stronger mobile CSS
+
+### Skip (unless extra time)
+
+- More API cards with the same pattern
+- UI frameworks that don’t add backend depth
+- Microservices for a portfolio dashboard
+
+### Mid-level demo story (target)
+
+> DevPulse is an ASP.NET Core dashboard that aggregates live developer signals. It uses typed HttpClient services, caching, per-source failure isolation, EF Core for user prefs, GitHub OAuth, health checks, automated tests, and is deployed to Azure with CI.
+
+Be ready to answer: *What happens when Hacker News is down?* and *How do you avoid rate limits?*
+
+---
+
+## Lab build guide
+
+**Tech Affiliates lab · ASP.NET Core Razor Pages · .NET 8 · C#**
+
+The section below is the typed walkthrough for the **v1 live session**. **You** create the files and type the code.  
+Do **not** ask an AI to “just finish the app” — that skips the learning.
+
+After v1 ships, follow **Phase 2–3** above to push the same repo to a mid-level portfolio bar.
+
+**v1 lab rules:** no database yet, no API keys required, beginner-readable C#, services separate from the page UI.  
 **Deploy target:** Azure App Service (Step 7).
 
-**Live demo URL (add yours after deploy):** `_your-azure-url-here_`
+Facilitator slide decks and speaker notes are **not** in this repo (see `.gitignore`). Students use this README as the typed walkthrough.
 
 ---
 
@@ -246,13 +427,12 @@ Open `DevPulse/Pages/Shared/_Layout.cshtml`. You can leave Bootstrap nav as-is f
 Run:
 
 ```bash
-cd DevPulse
 dotnet run
 ```
 
-You should see **five empty cards**.
+You should see **five empty cards** on a dark themed page.
 
-**Screenshot:** `screenshots/01-skeleton.png`
+**Status (2026-07-20):** Step 1 complete in-repo — dark theme + five cards.
 
 ---
 
@@ -945,13 +1125,24 @@ az login
 ### Checkpoint
 Open the Azure URL on your phone → all five cards load.
 
-Put that URL at the top of this README under **Live demo URL**.
+Put that URL at the **top of this README** under **Live demo**.
 
 **Screenshot:** `screenshots/07-shipped.png`
 
 ---
 
 ## Architecture (what “good” looks like)
+
+### Now (after 2026-07-20)
+
+```text
+Browser
+  → Pages/Index.cshtml  (hero + five placeholder cards)
+  → wwwroot/css/site.css  (dark theme · grid · card chrome)
+  → Index.cshtml.cs       (empty OnGet — APIs not wired yet)
+```
+
+### v1 (lab target)
 
 ```text
 Browser
@@ -965,18 +1156,50 @@ Browser
 - **Models** = shapes of data  
 - **No database** for v1  
 
+### Mid-level target
+
+```text
+Browser
+  → Auth (Identity / OAuth)
+  → Pages/Index (+ prefs)
+       → cached services (IHttpClientFactory + TTL)
+            → upstream APIs
+       → EF Core (favorites / prefs / challenge history)
+  → /health
+  → CI: GitHub Actions → Azure
+```
+
 ---
 
 ## Concepts you can put on a resume / LinkedIn
 
+**Right now (after skeleton session — 2026-07-20)**
+- ASP.NET Core Razor Pages layout (hero + multi-card dashboard shell)  
+- Separation of concerns: Razor markup vs `wwwroot` static CSS  
+- CSS Grid layout (`grid-template-columns`, gap, max-width centering) for a dark dashboard UI  
+
+**After v1**
 - ASP.NET Core Razor Pages  
 - C# `HttpClient` and `async`/`await`  
 - JSON deserialization to models  
 - Parallel requests with `Task.WhenAll`  
 - Dependency injection basics  
 - Deploying .NET to Azure  
+- Live facilitation / build-in-public delivery  
 
-One-liner: *Built and deployed a multi-API Razor Pages dashboard in C#.*
+**After mid-level phases**
+- `IHttpClientFactory`, caching, and rate-limit-aware design  
+- Resilience (timeouts, retries, per-dependency failure isolation)  
+- EF Core + migrations  
+- Auth (Identity or OAuth)  
+- Automated tests + GitHub Actions CI/CD  
+- Health checks and structured logging  
+
+Skeleton one-liner: *Scaffolded a dark ASP.NET Core Razor Pages dashboard shell with a five-card CSS Grid layout, ready for typed HttpClient API services.*
+
+v1 one-liner: *Built and shipped a multi-API Razor Pages dashboard in C# (.NET 8), integrating five public APIs with dependency injection, async HTTP, and Azure App Service — facilitated as a 4-hour live build.*
+
+Mid-level one-liner: *Built a production-minded ASP.NET Core dashboard that aggregates live developer signals via typed HttpClient services, caching, per-source failure isolation, EF Core prefs, auth, automated tests, and Azure CI/CD.*
 
 ---
 
@@ -989,15 +1212,6 @@ One-liner: *Built and deployed a multi-API Razor Pages dashboard in C#.*
 | Null / empty card | Log or breakpoint; check JSON property names |
 | GitHub 403 | Missing `User-Agent`, or rate limit — wait and retry |
 | Red build errors | Read the first error only; fix that file |
-
----
-
-## Facilitator notes
-
-- Night-before email: install .NET 8 SDK.  
-- Keep a backup live Azure URL if machines fail.  
-- Slide decks: [`decks/01-kickoff`](decks/01-kickoff/slides.md), [`decks/02-build`](decks/02-build/slides.md), [`decks/03-ship-close`](decks/03-ship-close/slides.md) — convert to PPT **after** you personally complete Steps 0–7.  
-- **Do not** pre-build Services/Models for attendees; they type from this README.
 
 ---
 

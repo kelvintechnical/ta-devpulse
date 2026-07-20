@@ -1,10 +1,14 @@
-﻿@page //This tells razor  'this is the .cshtml file for the index page 
+﻿@page 
+<!--
+This tells razor  'this is the .cshtml file for the index page 
 //that can be requested by the user's browser'
-
-@model IndexModel // This tells razor 
+ -->  
+@model IndexModel 
+<!--
+// This tells razor 
 //this is the model for the index page
 //connecting to the code behid file 
-
+-->
 @{ //opening of the Razor code block  
 //Everything is treated as a C# code block  and not HTML 
 
@@ -16,22 +20,47 @@ ViewData["Title"] = "DevPulse"; //Dictonary needed for loosely typed data
 // This means that the title is a string and not a dictionary
 //adding this to show the difference between the two 
 
-
-}
-
-//End of the Razor code block  
-
+// End of the Razor code block  
+} 
 <section class="hero">
-
-<h1>DevPulse</h1>  //Top level heading 
-<p class=tagline">Live developer pulse - APIs in C#</p>
-
+ <!-- This is a comment in HTML -->
+ <!--  Top Level Heading  -->
+<h1>DevPulse</h1>  
+<!--  Tagline for the website  -->
+<p class="tagline">Live developer pulse - APIs in C#</p>
 </section>
 
 <section class="card-grid">
-<article class="card" id="weather"> //used for self-contained content
-//meaning it can be used independently of the rest of the page  
-//used card to get the styling for the card   
-<h2>Weather </h2>
+<!-- card used for the weather -->
+<!-- self-contained content -->
+<!-- meaning it can be used independently of the rest of the page  -->
+    
+    <article class="card" id="weather">   
+    <h2>Weather </h2>
+    <p class="muted"> Weather information coming soon...</p>
+    </article> <!-- Closes the card for the weather -->
+    <!-- HN card -->
+    <article class="card" id="hn">
+    <h2>Hacker News</h2>
+    <p class="muted"> Hacker News information coming soon...</p>
+    </article> <!-- Closes the card for the HN -->
 
-<p class="muted"> Weather information coming soon...</p>
+    <article class="card" id="github"> 
+    <h2>GitHub Trending</h2>
+    <p class="muted"> GitHub information coming soon...</p>
+    </article> <!-- Closes the card for the GitHub -->
+
+    <article class="card" id="crypto">
+    <h2>Crypto</h2>
+    <p class="muted"> Crypto information coming soon...</p>
+    </article> <!-- Closes the card for the Crypto -->
+
+    <article class="card" id="challenge">
+    <h2>Daily Challenge</h2>
+    <p class="muted"> Daily News information coming soon...</p>
+    </article>
+    
+    <!-- Closes the card for the Daily News -->
+
+</section> <!-- Closes the card grid -->
+
