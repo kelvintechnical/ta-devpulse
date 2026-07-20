@@ -1,0 +1,25 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+*.DotSettings.user
+
+## Secrets / local
+appsettings.*.local.json
+.env
+.env.*
+
+## OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+*~
+
+## Publish output
+publish/
+out/

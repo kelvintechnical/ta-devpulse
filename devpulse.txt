@@ -1,27 +1,27 @@
 # DevPulse — Project Brief & Teaching Plan
 **Tech Affiliates Build Session · Giddy-Up Coffee House, Greenville NC**
 
-This one doc drives everything: the Cursor build, the PowerPoint, the follow-along, and my own learning. Pair it with the full step guide (`TA_Dev_Dashboard_Build_Guide.md`), which has all the code.
+This one doc drives everything: the Cursor build, the PowerPoint, the follow-along, and my own learning. Pair it with the README step guide in the repo.
 
 ---
 
 ## 1) The basics (tell Cursor this)
-- **Project name:** DevPulse (alt: "Grind Board")
+- **Project name:** DevPulse
 - **Repo name:** `ta-devpulse` (public GitHub repo)
-- **What it is:** a single web page with five live cards — Weather, Hacker News, GitHub Trending, Crypto, Daily Challenge — pulling real data from free APIs.
-- **Goal:** in one morning, a room of mixed-skill people builds and **deploys a live dashboard to the internet**, learning APIs, fetch, JSON, and deployment along the way. Build in public.
-- **Stack (decided):** vanilla **HTML + CSS + JavaScript**, one `index.html` file. **No frameworks, no build tools, no API keys.** Deploy to **Netlify** by drag-and-drop.
-- **Non-negotiables:** must run by opening the file in a browser; every data source must be key-free; keep it beginner-readable.
+- **What it is:** an ASP.NET Core Razor Pages dashboard with five live cards — Weather, Hacker News, GitHub Trending, Crypto, Daily Challenge — pulling real data from free APIs via C# `HttpClient`.
+- **Goal:** in one morning, a room of mixed-skill people builds and **deploys a live dashboard**, learning APIs, HTTP, JSON, C# async, Razor Pages, and Azure deployment along the way. Build in public.
+- **Stack (decided):** **ASP.NET Core Razor Pages** on **.NET 8**, C# services + models, HTML/CSS in Razor views. **No database. No API keys.** Deploy to **Azure App Service**.
+- **Non-negotiables:** key-free data sources; beginner-readable C#; services separated from the page UI; runnable with the .NET 8 SDK (`dotnet run`).
 
 ---
 
 ## 2) Cursor kickoff prompt (paste at the start)
-> We're building **DevPulse**, a single-file `index.html` dashboard in **vanilla HTML/CSS/JavaScript** (no frameworks, no keys). It has five cards pulling free APIs: Open-Meteo (weather), Hacker News, GitHub Search (trending repos), CoinGecko (crypto), and a local challenge list.
+> We're building **DevPulse**, an **ASP.NET Core Razor Pages** dashboard in **C#** (.NET 8). It has five cards pulling free APIs: Open-Meteo (weather), Hacker News, GitHub Search (trending repos), CoinGecko (crypto), and a local challenge list. No database, no API keys.
 >
 > **Important: I am learning as we build, and I'm teaching a room while we go.** So:
 > - Build it **one step at a time**, in the order of the attached step guide.
 > - **Before each step, explain in plain English** what we're about to do and why.
-> - **After each code block, explain what each part does** (what `fetch` is, what `await` does, what JSON is).
+> - **After each code block, explain what each part does** (what `HttpClient` is, what `await` does, what JSON deserialization is).
 > - Keep variable names clear and comment the code.
 > - Stop after each step so I can test and screenshot before moving on.
 >
@@ -29,31 +29,34 @@ This one doc drives everything: the Cursor build, the PowerPoint, the follow-alo
 
 ---
 
-## 3) The PowerPoint plan (one slide per step)
-Same numbering as the build guide so latecomers can match the slide to where we are. Each slide has: **title, goal, the code, a screenshot, a checkpoint.**
+## 3) The PowerPoint plan (three decks)
+Notes live in `decks/` first; convert to `.pptx` after a full local run.
 
-| Slide | Title | On the slide |
+| Deck | Folder | Job |
 |---|---|---|
-| Title | DevPulse — Build in Public | Event name, date, Giddy-Up, QR code to the repo |
-| 0 | Setup | Folder + `index.html`, "no keys, no installs" · [SCREENSHOT: Cursor open] |
-| 1 | The Skeleton | Grid HTML/CSS · [SCREENSHOT: 5 empty cards] |
-| 2 | Weather | Open-Meteo fetch · [SCREENSHOT: temp showing] |
-| 3 | Hacker News | Promise.all, top 5 stories · [SCREENSHOT: headlines] |
-| 4 | GitHub Trending | Search API + date math · [SCREENSHOT: repos] |
-| 5 | Crypto Ticker | setInterval auto-refresh · [SCREENSHOT: BTC/ETH] |
-| 6 | Daily Challenge | Button + Math.random · [SCREENSHOT: challenge] |
-| 7 | Ship It | Netlify drag-drop · [SCREENSHOT: live URL] |
-| End | You Built This | Group photo slide + "follow @kelvinintech" |
+| 1 Kickoff | `decks/01-kickoff` | Why, stack, pre-lab SDK/Azure checklist |
+| 2 Build | `decks/02-build` | Live follow-along steps 0–6 |
+| 3 Ship & Close | `decks/03-ship-close` | Azure deploy, learnings, CTA |
 
-**SC = screenshot.** Take one at each checkpoint as we build (that's your build-in-public content too). Leave the `[SCREENSHOT]` placeholders in the deck and drop images in live or after.
+Build steps mirror the README:
+
+| Step | Title | Checkpoint |
+|---|---|---|
+| 0 | Setup | `dotnet new` / `dotnet run` works |
+| 1 | The Skeleton | 5 empty cards |
+| 2 | Weather | Open-Meteo via HttpClient |
+| 3 | Hacker News | Task.WhenAll, top 5 |
+| 4 | GitHub Trending | Search API + date math |
+| 5 | Crypto Ticker | Auto-refresh (meta refresh) |
+| 6 | Daily Challenge | Form post + random pick |
+| 7 | Ship It | Azure App Service |
 
 ---
 
 ## 4) The QR code (for latecomers)
-**Goal:** anyone walking in late scans a QR and lands on the repo (or the live follow-along), sees which step we're on, and catches up.
+**Goal:** anyone walking in late scans a QR and lands on the repo README, sees which step we're on, and catches up.
 
-- **What it points to:** the public GitHub repo `github.com/[yourusername]/ta-devpulse` (has the step guide + code), OR the live Netlify URL once deployed.
-- **How to make it (free, 2 min):** go to any QR generator (e.g., qr-code-generator.com), paste the repo URL, download the PNG, drop it on the **title slide** and print a couple for the tables.
+- **What it points to:** the public GitHub repo `github.com/[yourusername]/ta-devpulse`
 - **Tip:** commit the build guide as the repo's `README.md` so the QR lands people on step-by-step instructions immediately.
 
 ---
@@ -61,38 +64,46 @@ Same numbering as the build guide so latecomers can match the slide to where we 
 ## 5) Teach-Kel primer (the concepts YOU are learning)
 Plain-English so you can teach it while you learn it:
 
-- **API** = a way for your code to ask another company's server for data. "Hey Open-Meteo, what's the weather?" It answers.
-- **`fetch(url)`** = the JavaScript command that sends that request over the internet.
-- **JSON** = the format the answer comes back in. It looks like labeled boxes: `{ "temperature": 72 }`. You read it with dots: `data.temperature`.
-- **`async` / `await`** = "wait for the internet to answer before moving on." Network calls take time; `await` pauses politely instead of breaking.
-- **DOM update** = putting the answer onto the page (`setCard(...)` swaps the card's text for real data).
-- **`try / catch`** = a safety net. If an API fails, catch the error and show "couldn't load" instead of crashing.
-- **`setInterval`** = "do this again every X seconds" (how the crypto card refreshes itself).
-- **Deploy** = putting your file on the internet so it has a real URL anyone can open. Netlify does it by drag-and-drop.
+- **API** = a way for your code to ask another company's server for data.
+- **`HttpClient`** = the C# tool that sends that HTTP request.
+- **JSON** = the format the answer comes back in. We map it into C# **models** (classes).
+- **`async` / `await`** = "wait for the network without freezing the app."
+- **Razor Pages** = HTML templates with C# that render on the server, then send a finished page to the browser.
+- **Dependency injection** = "ask the app for a ready-made service" instead of `new`-ing everything by hand (`Program.cs` registers services).
+- **`try` / `catch`** = if an API fails, show "couldn't load" instead of crashing.
+- **Deploy** = publish the app to Azure so it has a real URL.
 
-**Your one-liner for the room:** "An API is a waiter. `fetch` is you ordering. JSON is the plate that comes back. We just put what's on the plate onto the screen."
+**Your one-liner for the room:** "An API is a waiter. `HttpClient` is you ordering. JSON is the plate. Razor puts what's on the plate onto the page."
 
 ---
 
-## 6) Repo structure (what Cu`rsor should create)
-````
-ta-devpulse/
-  index.html          # the whole app (HTML + CSS + JS in one file)
-  README.md           # the step guide, so the QR lands here
-  screenshots/        # SCs from each step (optional)
+## 6) Repo structure
 ```
+ta-devpulse/
+  DevPulse/                 # ASP.NET scaffold only until YOU build cards
+    Pages/
+    wwwroot/css/
+    Program.cs
+  decks/                    # notes → PPT later
+  screenshots/
+  README.md                 # YOU type from this — step-by-step build guide
+  .gitignore
+```
+
+**Learning rule:** The README is the lab. Facilitators and AI assistants must NOT fill in Services/Models/Index for the learner. Point them at the next README step instead.
 
 ---
 
 ## 7) After the session
 - Push final repo to GitHub (public) so attendees keep it.
-- Post the live Netlify URL + screenshots with #buildinpublic, tag @kelvinintech + Giddy-Up.
+- Post the live Azure URL + screenshots with #buildinpublic, tag @kelvinintech + Giddy-Up.
 - This becomes a reusable Tech Affiliates Labs lab.
 
 ---
 
 ## Open items
-- [ ] Confirm final name: **DevPulse** vs "Grind Board"
-- [ ] Create the GitHub repo + generate the QR
-- [ ] Lock Sept 12 with Giddy-Up
-- [ ] Build the `index.html` starter + the PowerPoint from this plan
+- [ ] Confirm Sept 12 with Giddy-Up
+- [ ] Create/update the GitHub repo + generate the QR
+- [ ] Attendees: install .NET 8 SDK night before
+- [ ] Deploy portfolio demo URL to Azure
+- [ ] Convert `decks/*/slides.md` into three `.pptx` files after a full run

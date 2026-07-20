@@ -1,0 +1,37 @@
+﻿@page //This tells razor  'this is the .cshtml file for the index page 
+//that can be requested by the user's browser'
+
+@model IndexModel // This tells razor 
+//this is the model for the index page
+//connecting to the code behid file 
+
+@{ //opening of the Razor code block  
+//Everything is treated as a C# code block  and not HTML 
+
+ViewData["Title"] = "DevPulse"; //Dictonary needed for loosely typed data
+//which means it can be any type of data 
+//'Give me any any type of data you want and I will give it to you'
+
+//ViewBag.Title = "DevPulse"; //Strongly typed data  
+// This means that the title is a string and not a dictionary
+//adding this to show the difference between the two 
+
+
+}
+
+//End of the Razor code block  
+
+<section class="hero">
+
+<h1>DevPulse</h1>  //Top level heading 
+<p class=tagline">Live developer pulse - APIs in C#</p>
+
+</section>
+
+<section class="card-grid">
+<article class="card" id="weather"> //used for self-contained content
+//meaning it can be used independently of the rest of the page  
+//used card to get the styling for the card   
+<h2>Weather </h2>
+
+<p class="muted"> Weather information coming soon...</p>
