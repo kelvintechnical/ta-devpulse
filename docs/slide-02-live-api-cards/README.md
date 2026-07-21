@@ -1,12 +1,16 @@
 # Slide 2 — Live API Cards
 
 **Status:** Next  
-**Slides:** _Google Slides link coming soon_  
+**Slides:** _Google Slides link coming soon_ · **Facilitator notes:** [notes.md](./notes.md) · **Practice:** [questions.md](./questions.md)  
 **Repo:** [github.com/kelvintechnical/ta-devpulse](https://github.com/kelvintechnical/ta-devpulse) · **Site:** [kelvinintechconsulting.com](https://www.kelvinintechconsulting.com)
 
 > **Goal:** Wire real data into each card — typed `HttpClient` services, models, DI, and per-card errors. Layout from Slide 1 stays; data fills the shells.
 
 **Prev:** [Slide 1 — Dashboard Skeleton](../slide-01-dashboard-skeleton/README.md) · **Next:** [Slide 3 — Ship & Close](../slide-03-ship-and-close/README.md) · [← README](../../README.md)
+
+**How to use this guide:** Read each mini-step → look at the image → type the code → hit the checkpoint.
+
+**Paths:** Create folders at the **project root** (same level as `Pages/`, `Program.cs`, `wwwroot/`) — e.g. `Models/`, `Services/`. Namespace stays `DevPulse.Models` / `DevPulse.Services`.
 
 ---
 
@@ -16,7 +20,7 @@
 
 ---
 
-> **Visual check:** After the checkpoint, compare your browser to the Weather card on your running app. A committed screenshot will be added here after the live demo.
+> **Visual check:** After the checkpoint, compare your browser to the Weather card on your running app. A committed browser screenshot will be added here after the live demo.
 
 ### Goal
 Show real weather data on the Weather card.
@@ -27,9 +31,33 @@ This is the first full path: **HTTP request → JSON → C# model → Razor**.
 ### Mental model
 > API = waiter · `HttpClient` = your order · JSON = the plate · model = labels on the plate · Razor = food on your table
 
+### Big picture — how Models fit
+
+Before typing files, see the whole path (Models are the glowing center — they **hold** data; they do **not** call the API):
+
+![DevPulse: How Models Fit the Data Flow](images/modeldataflowexplanation.png)
+
+---
+
 ### 2A — Create a shared result wrapper
-Create folder `DevPulse/Models/` if it does not exist.  
-Create file `DevPulse/Models/CardResult.cs` and type:
+
+Create folder `Models/` at the project root if it does not exist (sibling of `Pages/` — **not** inside `wwwroot`):
+
+![Create Models folder](images/createdmodelsfolder.png)
+
+Create file `Models/CardResult.cs`:
+
+![Create CardResult.cs](images/createdcardresultscsfile.png)
+
+**Teaching — generics (`T`):** one reusable “box” design, filled many ways:
+
+![Generics: one box design](images/generic_box_analogy.png)
+
+Same idea as a car body with a swappable engine bay (this is **not** inheritance):
+
+![Generics: car and engine bay](images/genericautomotiveimage.png)
+
+Type into `Models/CardResult.cs`:
 
 ```csharp
 namespace DevPulse.Models;
@@ -49,8 +77,19 @@ public class CardResult<T>
 | `T?` / `string?` | Can be null |
 | `Ok => ...` | Computed property (no separate field) |
 
+---
+
 ### 2B — Create the weather model
-Create `DevPulse/Models/WeatherInfo.cs`:
+
+Create `Models/WeatherInfo.cs` next to `CardResult.cs`:
+
+![Create WeatherInfo.cs](images/createdweatherinfocsfile.png)
+
+**Teaching — generic wrapper vs concrete payload:**
+
+![Generic CardResult vs concrete WeatherInfo](images/generic_vs_concrete_class.png)
+
+Type into `Models/WeatherInfo.cs`:
 
 ```csharp
 namespace DevPulse.Models;
@@ -65,9 +104,25 @@ public class WeatherInfo
 
 `{ get; set; }` means: this property can be read and written (standard for data models).
 
+Practice questions: [questions.md](./questions.md)
+
+---
+
 ### 2C — Create the weather service
-Create folder `DevPulse/Services/`.  
-Create `DevPulse/Services/WeatherService.cs`:
+
+Create folder `Services/` at the project root (sibling of `Models/`):
+
+![Create Services folder](images/createservicesfolder.png)
+
+**Why `System.Text.Json`?** Built into .NET — no NuGet needed for this lab:
+
+![When to use System.Text.Json](images/when_to_use_system_text_json_v2.png)
+
+The two `using` lines at the top of the service “reel in” a framework tool and your models:
+
+![using statements analogy](images/systemtextjsonusingstatementsanalogy.png)
+
+Create `Services/WeatherService.cs` and type:
 
 ```csharp
 using System.Text.Json;
@@ -128,8 +183,10 @@ public class WeatherService
 | `try` / `catch` | If the API fails, return an error string instead of crashing |
 | `JsonDocument` | Read JSON without writing a full matching class for every field |
 
+---
+
 ### 2D — Register the service (dependency injection)
-Open `DevPulse/Program.cs`.  
+Open `Program.cs`.  
 **Right after** `builder.Services.AddRazorPages();` type:
 
 ```csharp
@@ -142,7 +199,7 @@ builder.Services.AddHttpClient<DevPulse.Services.WeatherService>(client =>
 **Why:** the app creates `WeatherService` for you and gives it a ready `HttpClient`. That’s dependency injection (DI).
 
 ### 2E — Call the service from the page model
-Open `DevPulse/Pages/Index.cshtml.cs`. **Replace** the whole file with:
+Open `Pages/Index.cshtml.cs`. **Replace** the whole file with:
 
 ```csharp
 using DevPulse.Models;
@@ -176,7 +233,7 @@ public class IndexModel : PageModel
 | `async Task` | Page load can await API calls |
 
 ### 2F — Show weather in the card
-In `Index.cshtml`, replace the Weather card body (`<p class="muted">Coming next…</p>`) with:
+In `Pages/Index.cshtml`, replace the Weather card body (`<p class="muted">…coming soon…</p>`) with:
 
 ```cshtml
 @if (Model.Weather?.Ok == true)
