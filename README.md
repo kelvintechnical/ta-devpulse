@@ -19,8 +19,8 @@ Work through these **three pages** in order:
 | Slide | Page | Status |
 |---|---|---|
 | **1** | [Dashboard Skeleton (Razor + CSS)](docs/slide-01-dashboard-skeleton/README.md) · [Google Slides](https://docs.google.com/presentation/d/1_EAkSfcNAW6q6c8elsMYhZ75GI4uQd-r4UIkOaBu7tw/edit?usp=sharing) | **Done** |
-| **2** | [Live API Cards](docs/slide-02-live-api-cards/README.md) | **Done** |
-| **3** | [Ship & Close](docs/slide-03-ship-and-close/README.md) | Upcoming |
+| **2** | [Live API Cards (Weather)](docs/slide-02-live-api-cards/README.md) | **Done** |
+| **3** | [Remaining cards & Ship](docs/slide-03-ship-and-close/README.md) | Upcoming |
 
 ---
 
@@ -45,8 +45,8 @@ Needs the [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0). Run fr
 | Layer | Status |
 |---|---|
 | Slide 1 — skeleton + dark CSS | **Done** |
-| Slide 2 — live API cards | **Done** |
-| Slide 3 — Azure ship | Upcoming |
+| Slide 2 — Weather HttpClient path | **Done** |
+| Slide 3 — remaining cards + Azure ship | Upcoming |
 | Mid-level extras (cache, EF, auth, tests, CI) | Planned |
 
 Overall mid-tier product: ~**50–55%**
@@ -61,7 +61,7 @@ ta-devpulse/
   docs/
     slide-01-dashboard-skeleton/   ← Slide 1 page + images
     slide-02-live-api-cards/       ← Slide 2 page + images
-    slide-03-ship-and-close/       ← Slide 3 page
+    slide-03-ship-and-close/       ← Slide 3 (remaining cards + ship)
   Models/ · Services/ · Pages/     ← ASP.NET Core app (repo root)
   Program.cs · wwwroot/ · …
 ```

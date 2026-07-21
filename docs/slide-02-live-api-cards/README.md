@@ -4,14 +4,13 @@
 **Slides:** _Google Slides link coming soon_ · **Facilitator notes:** [notes.md](./notes.md)  
 **Repo:** [github.com/kelvintechnical/ta-devpulse](https://github.com/kelvintechnical/ta-devpulse) · **Site:** [kelvinintechconsulting.com](https://www.kelvinintechconsulting.com)
 
-> **Goal:** Wire real data into each card — typed `HttpClient` services, models, DI, and per-card errors. Layout from Slide 1 stays; data fills the shells.
+> **Goal:** Wire the **Weather** card end-to-end — typed `HttpClient` service, models, DI, and per-card errors. Layout from Slide 1 stays; this slide teaches the pattern the other cards will copy.
 
-**Prev:** [Slide 1 — Dashboard Skeleton](../slide-01-dashboard-skeleton/README.md) · **Next:** [Slide 3 — Ship & Close](../slide-03-ship-and-close/README.md) · [← README](../../README.md)
+**Prev:** [Slide 1 — Dashboard Skeleton](../slide-01-dashboard-skeleton/README.md) · **Next:** [Slide 3 — Remaining cards & Ship](../slide-03-ship-and-close/README.md) · [← README](../../README.md)
 
 **How to use this guide:**
-- **Weather** = full walkthrough (images + syntax + type-along).
-- **HN / GitHub / Crypto** = same wiring as Weather — checklist + API URLs; build it yourself.
-- **Challenge** = different pattern (no HTTP).
+- **Weather** = full walkthrough (images + syntax + type-along) — sections **2A–2F** below.
+- **HN / GitHub / Crypto / Challenge** → [Slide 3](../slide-03-ship-and-close/README.md) (same wiring; click back to **2A–2F** when stuck).
 
 **Paths:** Create folders at the **project root** (same level as `Pages/`, `Program.cs`, `wwwroot/`). Namespaces: `DevPulse.Models` / `DevPulse.Services`.
 
@@ -40,7 +39,7 @@ First full path: **HTTP → JSON → C# model → page property → Razor**.
 
 ---
 
-### 2A — Models: shared result wrapper
+### <a id="2a"></a>2A — Models: shared result wrapper
 
 **Big picture first** — Models hold data; they do **not** call the API:
 
@@ -88,7 +87,7 @@ public class CardResult<T>
 
 ---
 
-### 2B — Models: weather payload
+### <a id="2b"></a>2B — Models: weather payload
 
 Create `Models/WeatherInfo.cs`:
 
@@ -123,7 +122,7 @@ public class WeatherInfo
 
 ---
 
-### 2C — WeatherService (fetch + map)
+### <a id="2c"></a>2C — WeatherService (fetch + map)
 
 Starting point: Models exist; Services not yet:
 
@@ -147,7 +146,7 @@ The two `using` lines “reel in” a framework tool and your models:
 
 ![Wrong class — HttpClient in Model](images/puttinghttpclientcallsinthemodel.jpg)
 
-#### Step C1 — Field (slot + rule)
+#### <a id="2c1"></a>Step C1 — Field (slot + rule)
 
 ```csharp
 private readonly HttpClient _httpClient;
@@ -170,7 +169,7 @@ In the file, the field is **above**; the constructor that fills it is **below**:
 
 ![Constructor comes after](images/constructor-comes-after.jpg)
 
-#### Step C2 — Constructor (HttpClient handed in)
+#### <a id="2c2"></a>Step C2 — Constructor (HttpClient handed in)
 
 ```csharp
 public WeatherService(HttpClient httpClient)
@@ -193,7 +192,7 @@ public WeatherService(HttpClient httpClient)
 
 ![Common HttpClient mix-ups](images/_common_mixups_httpclient.jpg)
 
-#### Step C3 — Method `GetAsync` (order placed → map → two doors)
+#### <a id="2c3"></a>Step C3 — Method `GetAsync` (order placed → map → two doors)
 
 ```csharp
 public async Task<CardResult<WeatherInfo>> GetAsync()
@@ -327,7 +326,7 @@ public class WeatherService
 
 ---
 
-### 2D — Register in `Program.cs` (dependency injection)
+### <a id="2d"></a>2D — Register in `Program.cs` (dependency injection)
 
 **Right after** `builder.Services.AddRazorPages();`:
 
@@ -351,7 +350,7 @@ builder.Services.AddHttpClient<DevPulse.Services.WeatherService>(client =>
 
 ---
 
-### 2E — Page model (`Index.cshtml.cs`)
+### <a id="2e"></a>2E — Page model (`Index.cshtml.cs`)
 
 **Index has TWO files** — don’t mix them up:
 
@@ -405,7 +404,7 @@ public class IndexModel : PageModel
 
 ---
 
-### 2F — Razor card (`Index.cshtml`)
+### <a id="2f"></a>2F — Razor card (`Index.cshtml`)
 
 In the **Weather** `<article id="weather">`, replace the muted “coming soon” paragraph:
 
@@ -437,151 +436,8 @@ else
 
 ---
 
-## Repeat for every HTTP card (HN · GitHub · Crypto)
-
-**Open your Weather files and copy the same shape.** Do not invent a new architecture.
-
-**Reference:**
-- `Models/WeatherInfo.cs` + `Models/CardResult.cs`
-- `Services/WeatherService.cs`
-- `Program.cs` (`AddHttpClient<WeatherService>`)
-- `Pages/Index.cshtml.cs` + `Pages/Index.cshtml`
-
-### Checklist — do these in order
-
-1. **Model shape in `Models/`**
-   - New `.cs` file (properties + `{ get; set; }`)
-   - Reuse `CardResult<T>` — do **not** invent a new wrapper
-   - Models describe; they do **not** call HTTP
-
-2. **Service in `Services/`** (mirror `WeatherService`)
-   - `private readonly HttpClient _http;` — **readonly field**
-   - **Constructor** takes `HttpClient` and assigns the field
-   - **After the constructor:** `Get…Async` → `Task<CardResult<YourModel>>`
-   - `try` → API URL(s) → map JSON → `Data = …`
-   - `catch` → `Error = …`
-
-3. **`Program.cs` update**
-   - `builder.Services.AddHttpClient<DevPulse.Services.YourService>(client => { client.Timeout = TimeSpan.FromSeconds(10); });`
-
-4. **`Index.cshtml.cs` update**
-   - Another readonly field + constructor parameter
-   - Property: `public CardResult<YourModel>? YourCard { get; private set; }`
-   - In `OnGetAsync`: `YourCard = await _yourService.Get…Async();`
-
-5. **`Index.cshtml` update**
-   - `@if (Model.YourCard?.Ok == true) { … Data … } else { … Error … }`
-
-**Stuck?** Diff against `WeatherService.cs`: field → constructor → `GetAsync` → try/catch → `CardResult`.
-
----
-
-## Hacker News (Task.WhenAll)
-
-### Goal
-Top 5 HN story titles (with links).
-
-### Why slightly different
-One call gets IDs; several calls fetch stories. Prefer `Task.WhenAll`.
-
-**Model (`Models/NewsStory.cs`):** `Title`, `Url` · return `CardResult<List<NewsStory>>`
-
-**API URLs**
-- `https://hacker-news.firebaseio.com/v0/topstories.json`
-- `https://hacker-news.firebaseio.com/v0/item/{id}.json`
-
-**Hints:** take first 5 IDs; map `title`/`url`; if no `url`, use `https://news.ycombinator.com/item?id={id}`
-
-**Razor:** `@foreach` over `Model.HackerNews.Data` when `Ok`
-
-### Checkpoint
-Five HN headlines appear.
-
----
-
-## GitHub Trending
-
-### Goal
-Repos created in the last week, sorted by stars.
-
-**Model (`Models/GitHubRepo.cs`):** `Name`, `Url`, `Stars` · return `CardResult<List<GitHubRepo>>`
-
-**API URL**
-- `https://api.github.com/search/repositories?q=created:>{yyyy-MM-dd}&sort=stars&order=desc&per_page=5`
-- `{yyyy-MM-dd}` = UTC today minus 7 days
-
-**Hints:** set a `User-Agent` on `HttpClient`; map `items[]` → `full_name`/`html_url`/`stargazers_count`
-
-### Checkpoint
-Repos + stars (or a clear rate-limit error).
-
----
-
-## Crypto (auto-refresh)
-
-### Goal
-BTC + ETH USD prices; refresh ~ every 60s.
-
-**Model (`Models/CryptoPrices.cs`):** `BtcUsd`, `EthUsd` · return `CardResult<CryptoPrices>`
-
-**API URL**
-- `https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd`
-
-**Extra — meta refresh**
-1. In `Index.cshtml`:
-```cshtml
-@section Head {
-    <meta http-equiv="refresh" content="60" />
-}
-```
-2. In `_Layout.cshtml` `<head>`:
-```cshtml
-@await RenderSectionAsync("Head", required: false)
-```
-
-### Checkpoint
-Prices show; page reloads ~ every 60s.
-
----
-
-## Daily Challenge (no API — different pattern)
-
-### Goal
-Button picks a random challenge from a local list.
-
-### Checklist (do **not** use `AddHttpClient`)
-
-1. **`Services/ChallengeService.cs`** — string array + `PickRandom()`
-2. **`Program.cs`** — `builder.Services.AddSingleton<DevPulse.Services.ChallengeService>();`
-3. **`Index.cshtml.cs`** — field + ctor + `string? Challenge` + POST handler:
-
-```csharp
-public IActionResult OnPostNewChallenge()
-{
-    TempData["Challenge"] = _challenges.PickRandom();
-    return RedirectToPage();
-}
-```
-
-4. **`Index.cshtml`**
-```cshtml
-<p>@(Model.Challenge ?? "Click for a challenge.")</p>
-<form method="post" asp-page-handler="NewChallenge">
-    <button type="submit">New challenge</button>
-</form>
-```
-
-### Checkpoint
-Button shows a new challenge string.
-
----
-
-## Slide 2 checkpoint
+## <a id="slide-2-checkpoint"></a>Slide 2 checkpoint
 
 - [ ] Weather shows temperature (or a clear error)
-- [ ] Hacker News shows top 5 titles
-- [ ] GitHub Trending shows repos + stars
-- [ ] Crypto shows BTC/ETH
-- [ ] Daily Challenge form works locally
 
-**When finished →** [Slide 3 — Ship & Close](../slide-03-ship-and-close/README.md)
+**When finished →** [Slide 3 — Remaining cards & Ship](../slide-03-ship-and-close/README.md) (HN · GitHub · Crypto · Challenge, then Azure)

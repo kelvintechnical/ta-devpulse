@@ -22,10 +22,10 @@
 | **Act B — WeatherService** | Ready (code + images + README) |
 | **Act C — DI + Index twins + Razor** | Ready (code + images + README) |
 | Browser Weather card screenshot | Ready — `weathercard_completed.png` |
-| HN / GitHub / Crypto / Challenge | Checklist in README (student “have at it”) |
+| HN / GitHub / Crypto / Challenge | Moved to [Slide 3](../slide-03-ship-and-close/README.md) (click back to Weather §§ 2A–2F) |
 
-**You are here:** Slide 2 lab guide **Done** (Weather walkthrough complete; other cards use the shared checklist). Next → Slide 3 Ship & Close.  
-**Teaching spine:** Destination before journey → Shape ≠ Fetch → field/`readonly` → HttpClient handed in → order placed → two doors → Holding ≠ becoming → DI → **two Index files** → OnGetAsync → Razor → run.
+**You are here:** Slide 2 lab guide **Done** (Weather walkthrough complete). Remaining cards + ship → [Slide 3](../slide-03-ship-and-close/README.md).  
+**Teaching spine:** Destination before journey → Shape ≠ Fetch → field/`readonly` → HttpClient handed in → order placed → two doors → Holding ≠ becoming → DI → **two Index files** → OnGetAsync → Razor → run → **(Slide 3)** copy the path for HN/GitHub/Crypto; Challenge is local POST.
 
 ---
 
