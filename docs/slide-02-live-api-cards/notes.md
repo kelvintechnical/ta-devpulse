@@ -3,7 +3,7 @@
 **Location:** `docs/slide-02-live-api-cards/`  
 **Deck focus:** Live API cards — Models → Services → Page Model → Razor (Weather first)  
 **Lab guide:** [README.md](./README.md) (images embedded — keep inventory in sync)  
-**Practice Qs:** [questions.md](./questions.md)  
+**Practice Qs (local only):** `.facilitator/questions.md` (gitignored)  
 **Gemini prompts (local only):** `.facilitator/gemini-prompts-models-to-service.md` (gitignored)  
 **Source files:** `Models/CardResult.cs`, `Models/WeatherInfo.cs`, `Services/WeatherService.cs`, `Program.cs`, `Pages/Index.cshtml.cs`, `Pages/Index.cshtml`  
 **Visual refs:** `images/` (student-facing; committed so README renders on GitHub)  
@@ -24,7 +24,7 @@
 | Browser Weather card screenshot | Ready — `weathercard_completed.png` |
 | HN / GitHub / Crypto / Challenge | Checklist in README (student “have at it”) |
 
-**You are here:** Weather end-to-end documented. Next lab work: HN / GitHub / Crypto / Challenge via the shared checklist.  
+**You are here:** Slide 2 lab guide **Done** (Weather walkthrough complete; other cards use the shared checklist). Next → Slide 3 Ship & Close.  
 **Teaching spine:** Destination before journey → Shape ≠ Fetch → field/`readonly` → HttpClient handed in → order placed → two doors → Holding ≠ becoming → DI → **two Index files** → OnGetAsync → Razor → run.
 
 ---
@@ -104,7 +104,6 @@ One-liner: **Models hold data. Services fetch data. Pages show data.**
 | `images/parameterandstorageweatherservice.jpg` | Parameter vs field names | B11 |
 | `images/_common_mixups_httpclient.jpg` | Myth busters | B12 |
 | `images/open-meteo-order-placed.jpg` | Order placed — Open-Meteo `GetAsync` | B13 |
-| `images/getasync-code-call.jpg` | Same beat (alt) — prefer one | B13 alt |
 | `images/try-catch-two-doors.jpg` | Success door / Error door | B15 |
 | `images/cardresultisnotinheritance.jpg` | Holding ≠ becoming · read `.Data` | B16 |
 | `images/genericsvsinheritance.jpg` | Inheritance (`:`) vs generics (`<>`) | B17 |
@@ -131,8 +130,7 @@ One-liner: **Models hold data. Services fetch data. Pages show data.**
 |---|---|
 | IDE JSON-map close-up | B14 crop |
 
-**Do not use in PPT:** `images/genericvsconcreteclass.png` — prefer `generic_vs_concrete_class.png`.  
-**Prefer one of:** `open-meteo-order-placed.jpg` **or** `getasync-code-call.jpg` (not both unless comparing).
+**Do not use in PPT:** `images/genericvsconcreteclass.png` — prefer `generic_vs_concrete_class.png`.
 
 ---
 
@@ -371,7 +369,7 @@ public class WeatherInfo
 - Not generic — fixed weather shape.
 - `double` defaults to `0.0` (calm vs missing look the same — gotcha).
 - `Summary = ""` — never null for Razor.
-- Practice: [questions.md](./questions.md)
+- Practice Qs live in `.facilitator/questions.md` (not linked from the public README).
 
 **Checkpoint:** `CardResult<WeatherInfo>` = envelope + this payload.
 
@@ -682,7 +680,6 @@ public WeatherService(HttpClient httpClient)
 ## B13 — Order placed — talk to Open-Meteo
 
 **Image:** `images/open-meteo-order-placed.jpg`  
-**Alt:** `images/getasync-code-call.jpg` (pick one for the deck)  
 **Goal:** The one line that talks to the internet.
 
 **Code callout:**
@@ -1073,6 +1070,5 @@ else
 - **Always teach C3 (two Index files)** before students edit markup — highest confusion point.
 - Keep **B16 (not inheritance)** and **C6 (`.Data` path)** as a pair.
 - Use **B17** right before `IndexModel : PageModel`.
-- Prefer `open-meteo-order-placed.jpg` **or** `getasync-code-call.jpg` — not both unless comparing crops.
-- Gemini prompt recipes stay in `.facilitator/` (gitignored). Polished images that README embeds stay in `images/` (committed).
+- Gemini prompt recipes + practice questions stay in `.facilitator/` (gitignored). Polished images that README embeds stay in `images/` (committed).
 - After any new screenshot, update **both** this inventory **and** [README.md](./README.md) in the same change.

@@ -1,7 +1,7 @@
 # Slide 2 — Live API Cards
 
-**Status:** Next  
-**Slides:** _Google Slides link coming soon_ · **Facilitator notes:** [notes.md](./notes.md) · **Practice:** [questions.md](./questions.md)  
+**Status:** Done  
+**Slides:** _Google Slides link coming soon_ · **Facilitator notes:** [notes.md](./notes.md)  
 **Repo:** [github.com/kelvintechnical/ta-devpulse](https://github.com/kelvintechnical/ta-devpulse) · **Site:** [kelvinintechconsulting.com](https://www.kelvinintechconsulting.com)
 
 > **Goal:** Wire real data into each card — typed `HttpClient` services, models, DI, and per-card errors. Layout from Slide 1 stays; data fills the shells.
@@ -117,8 +117,6 @@ public class WeatherInfo
 | `WindKph` | Must match exactly what the service assigns later |
 | `= ""` | Safe empty string so Razor never hits null on `Summary` |
 
-Practice: [questions.md](./questions.md)
-
 **Why Models before the Service?** Destination before journey — the service needs a shape to fill:
 
 ![Destination before journey](images/modelsbeforeservice.jpg)
@@ -222,8 +220,6 @@ response.EnsureSuccessStatusCode();
 ```
 
 ![Order placed — Open-Meteo GetAsync](images/open-meteo-order-placed.jpg)
-
-![GetAsync call close-up](images/getasync-code-call.jpg)
 
 **Map JSON → model** (API names → your property names):
 

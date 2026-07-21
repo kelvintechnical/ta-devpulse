@@ -28,4 +28,5 @@ out/
 # Student-facing screenshots stay in docs/**/images/ so README embeds work on GitHub.
 docs/**/.facilitator/
 **/gemini-prompts*.md
+docs/**/questions.md
 
