@@ -37,22 +37,49 @@ ViewData["Title"] = "DevPulse"; //Dictonary needed for loosely typed data
     
     <article class="card" id="weather">   
     <h2>Weather </h2>
-    <p class="muted"> Weather information coming soon...</p>
+    <!-- <p class="muted"> Weather information coming soon...</p> -->
+        @if (Model.Weather?.Ok == true)
+    {
+        <p>@Model.Weather.Data!.Summary</p>
+    }
+    else
+    {
+        <p class="error">@(Model.Weather?.Error ?? "Couldn't load weather")</p>
+    }
+
+
     </article> <!-- Closes the card for the weather -->
     <!-- HN card -->
     <article class="card" id="hn">
     <h2>Hacker News</h2>
     <p class="muted"> Hacker News information coming soon...</p>
+
     </article> <!-- Closes the card for the HN -->
 
     <article class="card" id="github"> 
     <h2>GitHub Trending</h2>
-    <p class="muted"> GitHub information coming soon...</p>
+    <!-- <p class="muted"> GitHub information coming soon...</p> -->
+    @if (Model.Github?.Ok == true)
+    {
+        <p>@Model.Github.Data!.Summary</p>
+    }
+    else
+    {
+        <p class="error">@(Model.Github?.Error ?? "Couldn't load Github")</p>
+    }
     </article> <!-- Closes the card for the GitHub -->
 
     <article class="card" id="crypto">
     <h2>Crypto</h2>
-    <p class="muted"> Crypto information coming soon...</p>
+    <!-- <p class="muted"> Crypto information coming soon...</p> -->
+    @if (Model.Crypto?.Ok == true)
+    {
+        <p>@Model.Crypto.Data!.Summary</p>
+    }
+    else
+    {
+        <p class="error">@(Model.Crypto?.Error ?? "Couldn't load Crypto")</p>
+    }
     </article> <!-- Closes the card for the Crypto -->
 
     <article class="card" id="challenge">

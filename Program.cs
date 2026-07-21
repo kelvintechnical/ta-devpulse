@@ -2,6 +2,25 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddHttpClient<DevPulse.Services.WeatherService>(client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(10);
+}
+);
+
+builder.Services.AddHttpClient<DevPulse.Services.GithubServices>(client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(10);
+    client.DefaultRequestHeaders.UserAgent.ParseAdd("DevPulse");
+}
+);
+
+builder.Services.AddHttpClient<DevPulse.Services.CryptoServices>(client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(10);
+    client.DefaultRequestHeaders.UserAgent.ParseAdd("DevPulse");
+}
+);
 
 var app = builder.Build();
 

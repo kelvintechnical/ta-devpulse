@@ -46,10 +46,13 @@ Needs the [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0). Run fr
 |---|---|
 | Slide 1 — skeleton + dark CSS | **Done** |
 | Slide 2 — Weather HttpClient path | **Done** |
-| Slide 3 — remaining cards + Azure ship | Upcoming |
+| Slide 3 — GitHub card + Crypto wiring (Frankfurter stand-in; CoinGecko blocked at work) | **In progress** |
+| Slide 3 — HN · Challenge · Azure ship | Upcoming |
 | Mid-level extras (cache, EF, auth, tests, CI) | Planned |
 
-Overall mid-tier product: ~**50–55%**
+Overall mid-tier product: ~**55–60%**
+
+**Paused:** see [docs/SESSION-NOTES.md](docs/SESSION-NOTES.md) for exact resume point.
 
 ---
 
