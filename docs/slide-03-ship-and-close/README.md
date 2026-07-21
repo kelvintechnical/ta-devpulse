@@ -34,28 +34,32 @@ Paths stay the same: `Models/` · `Services/` at project root. Namespaces: `DevP
 | Inject + property + `OnGetAsync` | `Index.cshtml.cs` | [**2E**](../slide-02-live-api-cards/README.md#2e) |
 | `@if (….Ok)` / error | Weather article in `Index.cshtml` | [**2F**](../slide-02-live-api-cards/README.md#2f) |
 
-### Checklist — same 5 steps every time
+### Recipe — same 5 steps every time
+
+Swap names for HN / GitHub / Crypto. Click the Slide 2 links when you need the typed walkthrough.
 
 1. **Model** — [§2B](../slide-02-live-api-cards/README.md#2b)  
-   New `.cs` in `Models/`; properties + `{ get; set; }`; no HTTP. Reuse [`CardResult<T>`](../slide-02-live-api-cards/README.md#2a) — do **not** invent a new wrapper.
+   Add a new file under `Models/` for this card’s shape. Give it the properties the UI needs (get/set only). No HTTP here. Reuse [`CardResult<T>`](../slide-02-live-api-cards/README.md#2a) — do **not** invent a new wrapper.
 
-2. **Service** — [§2C](../slide-02-live-api-cards/README.md#2c) (mirror `WeatherService`)  
-   - [Field](../slide-02-live-api-cards/README.md#2c1): `private readonly HttpClient _http;`  
-   - [Constructor](../slide-02-live-api-cards/README.md#2c2): takes `HttpClient`, assigns the field  
-   - [Get…Async](../slide-02-live-api-cards/README.md#2c3): `Task<CardResult<YourModel>>` → `try` → URL(s) → map JSON → `Data = …` / `catch` → `Error = …`
+2. **Service** — [§2C](../slide-02-live-api-cards/README.md#2c) (copy `WeatherService`)  
+   Same skeleton: a place to store the client ([field](../slide-02-live-api-cards/README.md#2c1)) → a constructor that receives the client and fills that slot ([ctor](../slide-02-live-api-cards/README.md#2c2)) → one async method that returns `CardResult<YourModel>` ([Get…Async](../slide-02-live-api-cards/README.md#2c3)).  
+   Inside the method:
+   - Put the API address in a variable.
+   - Ask your stored client for that address and wait for the reply; keep the reply in a local name you can read from.
+   - Fail fast if the reply isn’t a success.
+   - Open the body, parse JSON, pull out the fields you need, and fill your model.
+   - Success door → put the model in `Data`. Error door → put a clear message in `Error`.
 
 3. **DI** — [§2D](../slide-02-live-api-cards/README.md#2d)  
-   Another `builder.Services.AddHttpClient<DevPulse.Services.YourService>(client => { client.Timeout = TimeSpan.FromSeconds(10); });`  
-   (`OnGetAsync` **grows** — add another `await`; do not replace Weather’s line.)
+   In `Program.cs`, register this service the same way Weather is registered (typed `HttpClient`, short timeout). Add a **new** line next to Weather’s — do not delete or replace Weather’s registration.
 
 4. **Page model** — [§2E](../slide-02-live-api-cards/README.md#2e)  
-   Another readonly field + constructor parameter · `public CardResult<YourModel>? YourCard { get; private set; }` · in `OnGetAsync`: `YourCard = await _yourService.Get…Async();`
+   In `Index.cshtml.cs`: accept the new service (field + constructor parameter), expose a public card property (`CardResult<…>?`), and in `OnGetAsync` **add another await** that fills that property. Leave Weather’s await in place — the page grows; it doesn’t swap.
 
 5. **Razor** — [§2F](../slide-02-live-api-cards/README.md#2f)  
-   Replace the muted “coming soon” paragraph in that card’s `<article>` with `@if (Model.YourCard?.Ok == true) { … Data … } else { … Error … }`  
-   List cards use `@foreach` over `.Data`.
+   In that card’s `<article>`, remove the muted “coming soon” text. If the card result is ok, show `.Data`; otherwise show `.Error`. List cards: loop over `.Data` and render each item.
 
-**Stuck?** Diff against `Services/WeatherService.cs`: field → constructor → `GetAsync` → try/catch → `CardResult`.
+**Stuck?** Diff against `Services/WeatherService.cs` (field → constructor → GetAsync → try/catch → `CardResult`). For wiring, diff your Weather lines in `Program.cs` and `Index.cshtml.cs`.
 
 ---
 
