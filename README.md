@@ -1,5 +1,7 @@
 # DevPulse
 
+![DevPulse dashboard](screenshots/devpulse-thumbnail.jpg)
+
 **Live multi-API developer dashboard in ASP.NET Core** · Built in public · Aimed at mid-level .NET
 
 **Repo:** [https://github.com/kelvintechnical/ta-devpulse](https://github.com/kelvintechnical/ta-devpulse)  
