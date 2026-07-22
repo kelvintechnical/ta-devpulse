@@ -204,6 +204,8 @@ public async Task<CardResult<WeatherInfo>> GetAsync()
 | `async Task<...>` | Can `await` network work; returns a promise of `CardResult<WeatherInfo>` |
 | `CardResult<WeatherInfo>` | Wrapper holding weather **or** an error — **not** inheritance |
 
+**Full flow map (Task → try → catch):** [WeatherService Data Flow (PDF)](./images/WeatherService%20Data%20Flow.pdf)
+
 ![CardResult is NOT inheritance](images/cardresultisnotinheritance.jpg)
 
 ![Inheritance vs generics](images/genericsvsinheritance.jpg)
@@ -264,6 +266,8 @@ catch (Exception ex)
 ```
 
 ![One method · two doors](images/try-catch-two-doors.jpg)
+
+Same path as a printable diagram: [WeatherService Data Flow (PDF)](./images/WeatherService%20Data%20Flow.pdf)
 
 Full service reference (type this into `Services/WeatherService.cs`):
 

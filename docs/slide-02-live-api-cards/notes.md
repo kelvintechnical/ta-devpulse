@@ -738,6 +738,7 @@ return new CardResult<WeatherInfo>
 ## B15 — One method · two doors
 
 **Image:** `images/try-catch-two-doors.jpg`  
+**Handout:** [WeatherService Data Flow (PDF)](./images/WeatherService%20Data%20Flow.pdf) — Task → try (order placed → map → Data) → catch (Error)  
 **Goal:** Never crash the whole page for one card.
 
 **On slide:**
